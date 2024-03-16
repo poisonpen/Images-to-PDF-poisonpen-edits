@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -171,15 +172,20 @@ public class PdfToImageFragment extends Fragment implements BottomSheetPopulate,
      * receives intent response for selecting a pdf file
      */
     public void onActivityResult(int requestCode, int resultCode, Intent data) throws NullPointerException {
-        if (data == null || resultCode != RESULT_OK || data.getData() == null)
+
+        if (data == null || resultCode != RESULT_OK || data.getData() == null) {
             return;
+        }
         if (requestCode == INTENT_REQUEST_PICK_FILE_CODE) {
             mUri = data.getData();
             //Getting Absolute Path
             String path = RealPathUtil.getInstance().getRealPath(getContext(), data.getData());
-            setTextAndActivateButtons(path);
 
+            String realp = path + " is the answer";
+            Log.d("PROBLEMSHEREAND", realp);
+            setTextAndActivateButtons(path);
         }
+
     }
 
     /**
@@ -253,6 +259,7 @@ public class PdfToImageFragment extends Fragment implements BottomSheetPopulate,
      */
     private void setTextAndActivateButtons(String path) {
         if (path == null) {
+            Log.d("IMAGETOPDFQ", "ERROR IN HERE");
             StringUtils.getInstance().showSnackbar(mActivity, R.string.error_path_not_found);
             resetView();
             return;

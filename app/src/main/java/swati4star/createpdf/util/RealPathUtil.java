@@ -1,5 +1,7 @@
 package swati4star.createpdf.util;
 
+import static com.zhihu.matisse.internal.utils.PathUtils.isExternalStorageDocument;
+
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -46,7 +48,6 @@ public class RealPathUtil {
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");
                 final String type = split[0];
-
                 if ("primary".equalsIgnoreCase(type)) {
                     if (split.length > 1) {
                         path = Environment.getExternalStorageDirectory() + "/" + split[1];
@@ -59,7 +60,7 @@ public class RealPathUtil {
 
             } else if (isRawDownloadsDocument(uri)) {
                 path = getDownloadsDocumentPath(context, uri, true);
-            } else if (isDownloadsDocument(uri)) {
+            } else {
                 path = getDownloadsDocumentPath(context, uri, false);
             }
         }
